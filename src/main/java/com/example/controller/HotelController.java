@@ -14,6 +14,11 @@ public class HotelController {
 	private HotelService hotelService;
 
 	@RequestMapping("")
+	public String Index() {
+		return "hotelSearch";
+	}
+
+	@RequestMapping("/result")
 	public String result(Integer price, Model model) {
 		model.addAttribute("hotelList", hotelService.searchByLessThanPrice(price));
 

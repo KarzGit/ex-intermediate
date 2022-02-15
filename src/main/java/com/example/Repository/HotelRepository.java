@@ -30,10 +30,16 @@ public class HotelRepository {
 	private NamedParameterJdbcTemplate template;
 
 	public List<Hotel> searchByLessThanPrice(Integer price) {
-		String sql = "select id, area_name, hotel_name, address, nearest_station, price, parking from hotels where price <= :price";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("price", price);
-		List<Hotel> hotelList = template.query(sql, param, HOTEL_ROW_MAPPER);
-		return hotelList;
+		if (price == null) {
+			String sql = "select id, area_name, hotel_name, address, nearest_station, price, parking from hotels";
+			List<Hotel> hotelList = template.query(sql, HOTEL_ROW_MAPPER);
+			return hotelList;
+		} else {
+			String sql = "select id, area_name, hotel_name, address, nearest_station, price, parking from hotels where price <= :price";
+			SqlParameterSource param = new MapSqlParameterSource().addValue("price", price);
+			List<Hotel> hotelList = template.query(sql, param, HOTEL_ROW_MAPPER);
+			return hotelList;
+		}
 	}
 
 }
